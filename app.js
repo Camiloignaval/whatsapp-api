@@ -160,7 +160,7 @@ io.on("connection", function (socket) {
     client.initialize();
   });
 });
-
+//
 const checkRegisteredNumber = async function (number) {
   const isRegistered = await client.isRegisteredUser(number);
   return isRegistered;
