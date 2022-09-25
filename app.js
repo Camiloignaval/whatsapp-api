@@ -157,6 +157,7 @@ io.on("connection", function (socket) {
   client.on("disconnected", (reason) => {
     socket.emit("message", "Whatsapp is disconnected!");
     client.destroy();
+    fs.unlinkSync("./.wwebjs_auth");
     client.initialize();
   });
 });
