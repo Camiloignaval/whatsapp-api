@@ -159,7 +159,13 @@ io.on("connection", function (socket) {
     client.destroy();
     // todo brrar carpeta
     //
-    // fs.unlinkSync("./.wwebjs_auth");
+    fs.rmdir("./.wwebjs_auth", { recursive: true, force: true }, (err) => {
+      if (err) {
+        return console.log("error occurred in deleting directory", err);
+      }
+
+      console.log("Directory deleted successfully");
+    });
     client.initialize();
   });
 });
