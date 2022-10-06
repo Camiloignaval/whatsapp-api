@@ -435,7 +435,7 @@ function startKeepAlive() {
   setInterval(function () {
     console.log("despertare");
     // try {
-    http.get("http://whatsapp-api-cv.herokuapp.com");
+    http.get("https://whatsapp-api-cv.herokuapp.com");
     //   res.status(200).json({
     //     status: true,
     //   });
