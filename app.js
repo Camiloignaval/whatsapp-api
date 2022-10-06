@@ -434,7 +434,7 @@ app.get("/keepalive", async (req, res) => {
 function startKeepAlive() {
   setInterval(function () {
     var options = {
-      host: "https://whatsapp-api-cv.herokuapp.com",
+      host: "https://whatsapp-api-cv.herokuapp.com/",
       port: 80,
       path: "/keepalive",
     };
