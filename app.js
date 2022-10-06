@@ -38,7 +38,7 @@ app.use(
   })
 );
 //
-app.get("/", (req, res) => {
+app.get("/connect", (req, res) => {
   res.sendFile("index.html", {
     root: __dirname,
   });
@@ -434,25 +434,36 @@ app.post(
 function startKeepAlive() {
   setInterval(function () {
     console.log("despertare");
-    var options = {
-      host: "http://whatsapp-api-cv.herokuapp.com/",
-      port: 80,
-      path: "/",
-    };
-    http
-      .get(options, function (res) {
-        res.on("data", function (chunk) {
-          try {
-            // optional logging... disable after it's working
-            console.log("HEROKU RESPONSE: " + chunk);
-          } catch (err) {
-            console.log(err.message);
-          }
-        });
-      })
-      .on("error", function (err) {
-        console.log("Error: " + err.message);
+    try {
+      http.get("http://whatsapp-api-cv.herokuapp.com");
+      res.status(200).json({
+        status: true,
       });
+    } catch (error) {
+      res.status(400).json({
+        status: false,
+        message: error?.message ?? "",
+      });
+    }
+    // var options = {
+    //   host: "http://whatsapp-api-cv.herokuapp.com/",
+    //   port: 80,
+    //   path: "/",
+    // };
+    // http
+    //   .get(options, function (res) {
+    //     res.on("data", function (chunk) {
+    //       try {
+    //         // optional logging... disable after it's working
+    //         console.log("HEROKU RESPONSE: " + chunk);
+    //       } catch (err) {
+    //         console.log(err.message);
+    //       }
+    //     });
+    //   })
+    //   .on("error", function (err) {
+    //     console.log("Error: " + err.message);
+    //   });
   }, /* 20 */ 1 * 30 * 1000); // load every 20 minutes
 }
 
