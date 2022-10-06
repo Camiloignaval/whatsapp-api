@@ -424,22 +424,23 @@ app.post(
 //     });
 // });
 
-app.get("/keepalive", async (req, res) => {
-  console.log("keepalive");
-  res.status(200).json({
-    status: true,
-  });
-});
+// app.get("/keepalive", async (req, res) => {
+//   console.log("keepalive");
+//   res.status(200).json({
+//     status: true,
+//   });
+// });
 
 function startKeepAlive() {
   setInterval(function () {
+    console.log("despertare");
     var options = {
       host: "https://whatsapp-api-cv.herokuapp.com/",
       port: 80,
-      path: "/keepalive",
+      path: "/",
     };
     http
-      .get("https://whatsapp-api-cv.herokuapp.com/keepalive", function (res) {
+      .get(options, function (res) {
         res.on("data", function (chunk) {
           try {
             // optional logging... disable after it's working
@@ -452,7 +453,7 @@ function startKeepAlive() {
       .on("error", function (err) {
         console.log("Error: " + err.message);
       });
-  }, 1 * 30 * 1000); // load every 20 minutes
+  }, /* 20 */ 1 * 30 * 1000); // load every 20 minutes
 }
 
 startKeepAlive();
