@@ -435,7 +435,7 @@ function startKeepAlive() {
   setInterval(function () {
     console.log("despertare");
     var options = {
-      host: "https://whatsapp-api-cv.herokuapp.com/",
+      host: "http://whatsapp-api-cv.herokuapp.com/",
       port: 80,
       path: "/",
     };
