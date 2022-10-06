@@ -434,17 +434,17 @@ app.post(
 function startKeepAlive() {
   setInterval(function () {
     console.log("despertare");
-    try {
-      http.get("http://whatsapp-api-cv.herokuapp.com");
-      res.status(200).json({
-        status: true,
-      });
-    } catch (error) {
-      res.status(400).json({
-        status: false,
-        message: error?.message ?? "",
-      });
-    }
+    // try {
+    http.get("http://whatsapp-api-cv.herokuapp.com");
+    //   res.status(200).json({
+    //     status: true,
+    //   });
+    // } catch (error) {
+    //   res.status(400).json({
+    //     status: false,
+    //     message: error?.message ?? "",
+    //   });
+    // }
     // var options = {
     //   host: "http://whatsapp-api-cv.herokuapp.com/",
     //   port: 80,
