@@ -435,7 +435,7 @@ function startKeepAlive() {
   setInterval(async function () {
     try {
       console.log("despertare");
-      await fetch("https://whatsapp-api-cv.herokuapp.com");
+      await axios("https://whatsapp-api-cv.herokuapp.com");
     } catch (error) {
       console.log({ error });
     }
