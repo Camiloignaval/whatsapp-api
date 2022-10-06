@@ -424,18 +424,18 @@ app.post(
 //     });
 // });
 
-// app.get("/keepalive", async (req, res) => {
-//   console.log("keepalive");
-//   res.status(200).json({
-//     status: true,
-//   });
-// });
+app.get("/keepalive", async (req, res) => {
+  console.log("keepalive");
+  res.status(200).json({
+    status: true,
+  });
+});
 
 function startKeepAlive() {
   setInterval(async function () {
     try {
       console.log("despertare");
-      await axios("https://whatsapp-api-cv.herokuapp.com");
+      await axios("https://whatsapp-api-cv.herokuapp.com/keepalive");
     } catch (error) {
       console.log({ error });
     }
