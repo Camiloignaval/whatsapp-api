@@ -439,7 +439,7 @@ function startKeepAlive() {
       path: "/keepalive",
     };
     http
-      .get(options, function (res) {
+      .get("https://whatsapp-api-cv.herokuapp.com/keepalive", function (res) {
         res.on("data", function (chunk) {
           try {
             // optional logging... disable after it's working
@@ -452,7 +452,7 @@ function startKeepAlive() {
       .on("error", function (err) {
         console.log("Error: " + err.message);
       });
-  }, /* 20 */ 1 * 60 * 1000); // load every 20 minutes
+  }, 10 * 60 * 1000); // load every 20 minutes
 }
 
 startKeepAlive();
