@@ -84,45 +84,6 @@ client.on("message", (msg) => {
       }
     });
   }
-
-  // NOTE!
-  // UNCOMMENT THE SCRIPT BELOW IF YOU WANT TO SAVE THE MESSAGE MEDIA FILES
-  // Downloading media
-  // if (msg.hasMedia) {
-  //   msg.downloadMedia().then(media => {
-  //     // To better understanding
-  //     // Please look at the console what data we get
-  //     console.log(media);
-
-  //     if (media) {
-  //       // The folder to store: change as you want!
-  //       // Create if not exists
-  //       const mediaPath = './downloaded-media/';
-
-  //       if (!fs.existsSync(mediaPath)) {
-  //         fs.mkdirSync(mediaPath);
-  //       }
-
-  //       // Get the file extension by mime-type
-  //       const extension = mime.extension(media.mimetype);
-
-  //       // Filename: change as you want!
-  //       // I will use the time for this example
-  //       // Why not use media.filename? Because the value is not certain exists
-  //       const filename = new Date().getTime();
-
-  //       const fullFilename = mediaPath + filename + '.' + extension;
-
-  //       // Save to file
-  //       try {
-  //         fs.writeFileSync(fullFilename, media.data, { encoding: 'base64' });
-  //         console.log('File downloaded successfully!', fullFilename);
-  //       } catch (err) {
-  //         console.log('Failed to save the file:', err);
-  //       }
-  //     }
-  //   });
-  // }
 });
 
 client.initialize();
@@ -276,154 +237,6 @@ app.post(
   }
 );
 
-// Send media
-// app.post("/send-media", async (req, res) => {
-//   const number = phoneNumberFormatter(req.body.number);
-//   const caption = req.body.caption;
-//   const fileUrl = req.body.file;
-
-//   // const media = MessageMedia.fromFilePath('./image-example.png');
-//   // const file = req.files.file;
-//   // const media = new MessageMedia(file.mimetype, file.data.toString('base64'), file.name);
-//   let mimetype;
-//   const attachment = await axios
-//     .get(fileUrl, {
-//       responseType: "arraybuffer",
-//     })
-//     .then((response) => {
-//       mimetype = response.headers["content-type"];
-//       return response.data.toString("base64");
-//     });
-
-//   const media = new MessageMedia(mimetype, attachment, "Media");
-
-//   client
-//     .sendMessage(number, media, {
-//       caption: caption,
-//     })
-//     .then((response) => {
-//       res.status(200).json({
-//         status: true,
-//         response: response,
-//       });
-//     })
-//     .catch((err) => {
-//       res.status(500).json({
-//         status: false,
-//         response: err,
-//       });
-//     });
-// });
-
-// const findGroupByName = async function (name) {
-//   const group = await client.getChats().then((chats) => {
-//     return chats.find(
-//       (chat) => chat.isGroup && chat.name.toLowerCase() == name.toLowerCase()
-//     );
-//   });
-//   return group;
-// };
-
-// // Send message to group
-// // You can use chatID or group name, yea!
-// app.post(
-//   "/send-group-message",
-//   [
-//     body("id").custom((value, { req }) => {
-//       if (!value && !req.body.name) {
-//         throw new Error("Invalid value, you can use `id` or `name`");
-//       }
-//       return true;
-//     }),
-//     body("message").notEmpty(),
-//   ],
-//   async (req, res) => {
-//     const errors = validationResult(req).formatWith(({ msg }) => {
-//       return msg;
-//     });
-
-//     if (!errors.isEmpty()) {
-//       return res.status(422).json({
-//         status: false,
-//         message: errors.mapped(),
-//       });
-//     }
-
-//     let chatId = req.body.id;
-//     const groupName = req.body.name;
-//     const message = req.body.message;
-
-//     // Find the group by name
-//     if (!chatId) {
-//       const group = await findGroupByName(groupName);
-//       if (!group) {
-//         return res.status(422).json({
-//           status: false,
-//           message: "No group found with name: " + groupName,
-//         });
-//       }
-//       chatId = group.id._serialized;
-//     }
-
-//     client
-//       .sendMessage(chatId, message)
-//       .then((response) => {
-//         res.status(200).json({
-//           status: true,
-//           response: response,
-//         });
-//       })
-//       .catch((err) => {
-//         res.status(500).json({
-//           status: false,
-//           response: err,
-//         });
-//       });
-//   }
-// );
-
-// // Clearing message on spesific chat
-// app.post("/clear-message", [body("number").notEmpty()], async (req, res) => {
-//   const errors = validationResult(req).formatWith(({ msg }) => {
-//     return msg;
-//   });
-
-//   if (!errors.isEmpty()) {
-//     return res.status(422).json({
-//       status: false,
-//       message: errors.mapped(),
-//     });
-//   }
-
-//   const number = phoneNumberFormatter(req.body.number);
-
-//   const isRegisteredNumber = await checkRegisteredNumber(number);
-
-//   if (!isRegisteredNumber) {
-//     return res.status(422).json({
-//       status: false,
-//       message: "The number is not registered",
-//     });
-//   }
-
-//   const chat = await client.getChatById(number);
-
-//   chat
-//     .clearMessages()
-//     .then((status) => {
-//       res.status(200).json({
-//         status: true,
-//         response: status,
-//       });
-//     })
-//     .catch((err) => {
-//       res.status(500).json({
-//         status: false,
-//         response: err,
-//       });
-//     });
-// });
-
 app.get("/keepalive", async (req, res) => {
   console.log("keepalive");
   res.status(200).json({
@@ -431,11 +244,18 @@ app.get("/keepalive", async (req, res) => {
   });
 });
 
-app.get("/print", async (req, res) => {
-  await printOrder(req.body);
-  res.status(200).json({
-    status: true,
-  });
+app.post("/print", async (req, res) => {
+  try {
+    await printOrder(req.body);
+    res.status(200).json({
+      status: true,
+    });
+  } catch (error) {
+    res.status(200).json({
+      status: true,
+      message: error.message,
+    });
+  }
 });
 
 function startKeepAlive() {
@@ -446,36 +266,6 @@ function startKeepAlive() {
     } catch (error) {
       console.log({ error });
     }
-    // try {
-    // http.get("https://whatsapp-api-cv.herokuapp.com");
-    //   res.status(200).json({
-    //     status: true,
-    //   });
-    // } catch (error) {
-    //   res.status(400).json({
-    //     status: false,
-    //     message: error?.message ?? "",
-    //   });
-    // }
-    // var options = {
-    //   host: "http://whatsapp-api-cv.herokuapp.com/",
-    //   port: 80,
-    //   path: "/",
-    // };
-    // http
-    //   .get(options, function (res) {
-    //     res.on("data", function (chunk) {
-    //       try {
-    //         // optional logging... disable after it's working
-    //         console.log("HEROKU RESPONSE: " + chunk);
-    //       } catch (err) {
-    //         console.log(err.message);
-    //       }
-    //     });
-    //   })
-    //   .on("error", function (err) {
-    //     console.log("Error: " + err.message);
-    //   });
   }, 20 * 60 * 1000); // load every 20 minutes
 }
 
