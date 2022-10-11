@@ -11,7 +11,6 @@ const axios = require("axios");
 const mime = require("mime-types");
 require("dotenv").config();
 const port = process.env.PORT || 3001;
-const { printOrder } = require("./helpers/printOrder");
 
 const app = express();
 const server = http.createServer(app);
@@ -242,20 +241,6 @@ app.get("/keepalive", async (req, res) => {
   res.status(200).json({
     status: true,
   });
-});
-
-app.post("/print", async (req, res) => {
-  try {
-    await printOrder(req.body);
-    res.status(200).json({
-      status: true,
-    });
-  } catch (error) {
-    res.status(200).json({
-      status: true,
-      message: error.message,
-    });
-  }
 });
 
 function startKeepAlive() {
