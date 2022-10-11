@@ -10,8 +10,8 @@ const fileUpload = require("express-fileupload");
 const axios = require("axios");
 const mime = require("mime-types");
 require("dotenv").config();
-
 const port = process.env.PORT || 3001;
+const { printOrder } = require("./helpers/printOrder");
 
 const app = express();
 const server = http.createServer(app);
@@ -426,6 +426,13 @@ app.post(
 
 app.get("/keepalive", async (req, res) => {
   console.log("keepalive");
+  res.status(200).json({
+    status: true,
+  });
+});
+
+app.get("/print", async (req, res) => {
+  await printOrder(req.body);
   res.status(200).json({
     status: true,
   });
