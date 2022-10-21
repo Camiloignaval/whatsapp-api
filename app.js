@@ -23,14 +23,6 @@ app.use(
   })
 );
 
-/**
- * BASED ON MANY QUESTIONS
- * Actually ready mentioned on the tutorials
- *
- * Many people confused about the warning for file-upload
- * So, we just disabling the debug for simplicity.
- */
-//
 app.use(
   fileUpload({
     debug: false,
@@ -45,17 +37,25 @@ app.get("/connect", (req, res) => {
 
 const client = new Client({
   restartOnAuthFail: true,
+  // puppeteer: {
+  //   headless: true,
+  //   args: [
+  //     "--no-sandbox",
+  //     "--disable-setuid-sandbox",
+  //     "--disable-dev-shm-usage",
+  //     "--disable-accelerated-2d-canvas",
+  //     "--no-first-run",
+  //     "--no-zygote",
+  //     "--single-process", // <- this one doesn't works in Windows
+  //     "--disable-gpu",
+  //   ],
+  // },
   puppeteer: {
     headless: true,
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-      "--disable-accelerated-2d-canvas",
-      "--no-first-run",
-      "--no-zygote",
-      "--single-process", // <- this one doesn't works in Windows
-      "--disable-gpu",
+      // "--user-data-dir=" + dataDir,
     ],
   },
   authStrategy: new LocalAuth(),
@@ -117,66 +117,11 @@ io.on("connection", function (socket) {
   client.on("disconnected", (reason) => {
     socket.emit("message", "Whatsapp is disconnected!");
     client.destroy();
-    // todo brrar carpeta
-
-    // rmdirAsync("./.wwebjs_auth", (res) => {
-    //   console.log({ res });
-    // });
-    // fs.rmdir("./.wwebjs_auth", { recursive: true, force: true }, (err) => {
-    //   if (err) {
-    //     return console.log("error occurred in deleting directory", err);
-    //   }
-
-    //   console.log("Directory deleted successfully");
-    // });
 
     client.initialize();
   });
 });
 
-// ---------
-var rmdirAsync = function (path, callback) {
-  fs.readdir(path, function (err, files) {
-    if (err) {
-      // Pass the error on to callback
-      callback(err, []);
-      return;
-    }
-    var wait = files.length,
-      count = 0,
-      folderDone = function (err) {
-        count++;
-        // If we cleaned out all the files, continue
-        if (count >= wait || err) {
-          fs.rmdir(path, callback);
-        }
-      };
-    // Empty directory to bail early
-    if (!wait) {
-      folderDone();
-      return;
-    }
-
-    // Remove one or more trailing slash to keep from doubling up
-    path = path.replace(/\/+$/, "");
-    files.forEach(function (file) {
-      var curPath = path + "/" + file;
-      fs.lstat(curPath, function (err, stats) {
-        if (err) {
-          callback(err, []);
-          return;
-        }
-        if (stats.isDirectory()) {
-          rmdirAsync(curPath, folderDone);
-        } else {
-          fs.unlink(curPath, folderDone);
-        }
-      });
-    });
-  });
-};
-// ---------
-//
 const checkRegisteredNumber = async function (number) {
   const isRegistered = await client.isRegisteredUser(number);
   return isRegistered;
@@ -228,6 +173,8 @@ app.post(
         });
       })
       .catch((err) => {
+        console.log("me cai", err.message);
+
         res.status(500).json({
           status: false,
           response: err,
@@ -235,26 +182,6 @@ app.post(
       });
   }
 );
-
-app.get("/keepalive", async (req, res) => {
-  console.log("keepalive");
-  res.status(200).json({
-    status: true,
-  });
-});
-
-// function startKeepAlive() {
-//   setInterval(async function () {
-//     try {
-//       console.log("despertare");
-//       await axios("https://whatsapp-api-cv.herokuapp.com/keepalive");
-//     } catch (error) {
-//       console.log({ error });
-//     }
-//   }, 20 * 60 * 1000); // load every 20 minutes
-// }
-
-// startKeepAlive();
 
 server.listen(port, function () {
   console.log("App running on *: " + port);
