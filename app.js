@@ -37,27 +37,27 @@ app.get("/connect", (req, res) => {
 
 const client = new Client({
   restartOnAuthFail: true,
-  // puppeteer: {
-  //   headless: true,
-  //   args: [
-  //     "--no-sandbox",
-  //     "--disable-setuid-sandbox",
-  //     "--disable-dev-shm-usage",
-  //     "--disable-accelerated-2d-canvas",
-  //     "--no-first-run",
-  //     "--no-zygote",
-  //     "--single-process", // <- this one doesn't works in Windows
-  //     "--disable-gpu",
-  //   ],
-  // },
   puppeteer: {
     headless: true,
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
-      // "--user-data-dir=" + dataDir,
+      "--disable-dev-shm-usage",
+      "--disable-accelerated-2d-canvas",
+      "--no-first-run",
+      "--no-zygote",
+      "--single-process", // <- this one doesn't works in Windows
+      "--disable-gpu",
     ],
   },
+  // puppeteer: {
+  //   headless: true,
+  //   args: [
+  //     "--no-sandbox",
+  //     "--disable-setuid-sandbox",
+  //     // "--user-data-dir=" + dataDir,
+  //   ],
+  // },
   authStrategy: new LocalAuth(),
 });
 
