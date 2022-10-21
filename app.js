@@ -173,7 +173,7 @@ app.post(
         });
       })
       .catch((err) => {
-        console.log("me cai", err.message);
+        console.log({ errorToSendMsg: err.message });
 
         res.status(500).json({
           status: false,
