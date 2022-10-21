@@ -243,18 +243,18 @@ app.get("/keepalive", async (req, res) => {
   });
 });
 
-function startKeepAlive() {
-  setInterval(async function () {
-    try {
-      console.log("despertare");
-      await axios("https://whatsapp-api-cv.herokuapp.com/keepalive");
-    } catch (error) {
-      console.log({ error });
-    }
-  }, 20 * 60 * 1000); // load every 20 minutes
-}
+// function startKeepAlive() {
+//   setInterval(async function () {
+//     try {
+//       console.log("despertare");
+//       await axios("https://whatsapp-api-cv.herokuapp.com/keepalive");
+//     } catch (error) {
+//       console.log({ error });
+//     }
+//   }, 20 * 60 * 1000); // load every 20 minutes
+// }
 
-startKeepAlive();
+// startKeepAlive();
 
 server.listen(port, function () {
   console.log("App running on *: " + port);
