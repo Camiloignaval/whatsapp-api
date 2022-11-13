@@ -24,6 +24,6 @@
     "mime-types": "^2.1.32",
     "qrcode": "^1.4.4",
     "socket.io": "^2.5.0",
-    "whatsapp-web.js": "latest"
+    "whatsapp-web.js": "^1.18.3-alpha.0"
   }
 }
