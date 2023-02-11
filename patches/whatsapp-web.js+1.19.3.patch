@@ -1,0 +1,14 @@
+diff --git a/node_modules/whatsapp-web.js/src/util/Injected.js b/node_modules/whatsapp-web.js/src/util/Injected.js
+index 7acc145..282f348 100644
+--- a/node_modules/whatsapp-web.js/src/util/Injected.js
++++ b/node_modules/whatsapp-web.js/src/util/Injected.js
+@@ -25,7 +25,8 @@ exports.ExposeStore = (moduleRaidStr) => {
+     window.Store.MsgKey = window.mR.findModule((module) => module.default && module.default.fromString)[0].default;
+     window.Store.MessageInfo = window.mR.findModule('sendQueryMsgInfo')[0];
+     window.Store.OpaqueData = window.mR.findModule(module => module.default && module.default.createFromData)[0].default;
+-    window.Store.QueryExist = window.mR.findModule('queryExists')[0].queryExists;
++    // window.Store.QueryExist = window.mR.findModule('queryExists')[0].queryExists;
++    window.mR.findModule('queryExist')[0].queryWidExists;
+     window.Store.QueryProduct = window.mR.findModule('queryProduct')[0];
+     window.Store.QueryOrder = window.mR.findModule('queryOrder')[0];
+     window.Store.SendClear = window.mR.findModule('sendClear')[0];

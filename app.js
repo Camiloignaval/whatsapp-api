@@ -92,7 +92,7 @@ io.on("connection", function (socket) {
   socket.emit("message", "Connecting...");
 
   client.on("qr", (qr) => {
-    console.log("QR RECEIVED", qr);
+    console.log("QR RECEIVED");
     qrcode.toDataURL(qr, (err, url) => {
       socket.emit("qr", url);
       socket.emit("message", "QR Code received, scan please!");
