@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "start:dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "patch-package"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "whatsapp-api",
@@ -23,10 +22,8 @@
     "express-validator": "^6.9.2",
     "http": "0.0.1-security",
     "mime-types": "^2.1.32",
-    "patch-package": "^6.5.1",
-    "postinstall-postinstall": "^2.1.0",
     "qrcode": "^1.4.4",
     "socket.io": "^2.5.0",
-    "whatsapp-web.js": "^1.19.3"
+    "whatsapp-web.js": "^1.21.0"
   }
 }
